@@ -3,7 +3,7 @@ import GalleryItem from '../GalleryItem/GalleryItem';
 
 class GalleryList extends Component {
     render() {
-        const galleryElements = this.props.list.map((gallery, index) => {
+        const galleryElements = this.props.gallery.map((gallery, index) => {
             return  <GalleryItem
                         key={index}
                         getGalleryCallback={this.props.getGalleryCallback}
