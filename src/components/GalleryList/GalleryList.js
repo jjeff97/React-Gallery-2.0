@@ -1,22 +1,31 @@
 import React, { Component } from 'react';
 import GalleryItem from '../GalleryItem/GalleryItem';
+import './GalleryList.css';
 
 class GalleryList extends Component {
-    render() {
-        const galleryElements = this.props.gallery.map((gallery, index) => {
-            return  <GalleryItem
-                        key={index}
-                        getGalleryCallback={this.props.getGalleryCallback}
-                        itemData={gallery}
-                    />;
+    render(){
+        let galleryList = this.props.gallery.map((item, index) => {
+        
+            return (
+                <div className="card-wrapper" key={item.id}>
+                    <GalleryItem 
+                        id={item.id}
+                        title={item.title}
+                        path={item.path}
+                        description={item.description}
+                        likes={item.likes}
+                        putGallery={this.props.putGallery} />
+                </div>
+            )
         });
-        console.log(galleryElements);
 
         return (
-            <ul>
-                {galleryElements}
-            </ul>
-        );
+        <div className="container">
+            <div className="row justify-content-center">
+           {galleryList}
+           </div>
+        </div>
+        )
     }
 }
 

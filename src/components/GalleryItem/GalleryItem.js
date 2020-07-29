@@ -1,70 +1,46 @@
 import React, { Component } from "react";
-import axios from'axios';
+import './GalleryItem.css';
+import axios from 'axios';
 
 class GalleryItem extends Component {
-  revealDescription(galleryId) {
-    axios({
-      method: "PUT",
-      url: `/gallery/count/${galleryId}`,
-    })
-      .then((response) => {
-        console.log("GET gallery: ", response);
-        this.props.getGalleryCallback();
-      })
-      .catch((err) => {
-        console.log("GET error: ", err);
-        alert("You Failed!!!");
-      });
-  }
-  state = {
-    count: 0,
-    descriptionToggle: false,
-  };
-
-  likeHandler = (event) => {
-    this.setState({
-      count: !this.state.hide,
-    });
-  };
-
-  clickChangeHandler = (event) => {
-    if (this.state.descriptionToggle) {
-      this.setState({
-        descriptionToggle: false,
-      });
-    } else {
-      this.setState({
-        descriptionToggle: true,
-      });
-    }
-  };
-
-  render() {
-    let description = <div></div>;
-
-    if (this.state.descriptionToggle) {
-      description = <p>{this.props.itemData.description}</p>;
-    }
-
-    return (
-      <div>
-        <button>
-          <img
-            src={this.props.itemData.path}
-            onClick={this.clickChangeHandler}
-          />
-        </button>
-        <button
-          onClick={() => {
-            this.setState({ count: this.state.count + 1 });
-          }}
-        >
-          Like: {this.state.count}
-        </button>
-        {description}
-      </div>
-    );
-  }
+    state= {
+        imageVisible: true,
+      }
+      //imageVisible helps the following function toggle whether image or description are shown
+      clickToggleDescription = (event) => {
+        if(this.state.imageVisible === true){
+          this.setState({
+            imageVisible: false,
+          })
+        }
+        if(this.state.imageVisible === false){
+          this.setState({
+              imageVisible: true,
+          })
+        }
+      }
+      
+      render() {
+          let imgPath = this.props.path;
+          let imageBox = <img src={'..'+ imgPath} alt="pix"/>
+          ///imageBox toggles between image and description when clicked
+          if(this.state.imageVisible === false){
+            imageBox = <p>{this.props.description}</p>
+      }
+        
+          return (
+            <div className="card">
+                <div className="card-img-top" onClick={this.clickToggleDescription}>{imageBox}</div>
+                    <div class="card-body">
+                      <div className="card-text">
+                        <p>{this.props.title}</p>
+                        <p>Likes: {this.props.likes}</p>
+                      <button data-id={this.props.id} className="btn btn-primary" onClick={this.props.putGallery} >Like</button>
+                    </div>
+                </div>
+          </div>
+          )
+      }
 }
 
 export default GalleryItem;
